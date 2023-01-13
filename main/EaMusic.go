@@ -3,17 +3,16 @@ package main
 import (
 	myApp "EaMusic/app"
 	"EaMusic/theme"
+	"EaMusic/ui"
 	"fyne.io/fyne/v2"
-	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/driver/desktop"
-	"fyne.io/fyne/v2/layout"
-	"fyne.io/fyne/v2/widget"
 )
 
 func main() {
 	// application
-	// a := app.NewWithID("EaMusic")
-	// myApp.MApp.App = a
+	a := app.NewWithID("EaMusic")
+	myApp.MApp.App = a
 	myApp.MApp.App.Settings().SetTheme(&theme.MyTheme{})
 
 	// window
@@ -25,14 +24,12 @@ func main() {
 	}
 	myApp.MApp.MainWindow.CenterOnScreen() // 居中
 	myApp.MApp.MainWindow.Resize(fyne.Size{
-		Width:  1050,
-		Height: 670,
+		Width:  myApp.MApp.Width,
+		Height: myApp.MApp.Height,
 	})
-	// myApp.MApp.MainWindow.SetMaster() // 主窗口
-	// 添加标题栏
-	titleBar := container.NewHBox(
-		widget.NewLabel("EaMusic"),
-	)
-	myApp.MApp.MainWindow.SetContent(fyne.NewContainerWithLayout(layout.NewBorderLayout(nil, nil, titleBar, nil), titleBar))
+	ui.MyUi.MainWindow = myApp.MApp.MainWindow
+	myApp.MApp.MainWindow.SetMaster() // 主窗口
+	ui.MyUi.MakeUi()
 	myApp.MApp.MainWindow.ShowAndRun()
+
 }
