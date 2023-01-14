@@ -6,7 +6,6 @@ import (
 	"EaMusic/ui"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
-	"fyne.io/fyne/v2/driver/desktop"
 )
 
 func main() {
@@ -16,12 +15,13 @@ func main() {
 	myApp.MApp.App.Settings().SetTheme(&theme.MyTheme{})
 
 	// window
-	// myApp.MApp.MainWindow = a.NewWindow("EaMusic")
+	myApp.MApp.MainWindow = a.NewWindow("EaMusic")
 	// 无边框窗口
-	drv := fyne.CurrentApp().Driver()
-	if drv, ok := drv.(desktop.Driver); ok {
-		myApp.MApp.MainWindow = drv.CreateSplashWindow()
-	}
+	// drv := fyne.CurrentApp().Driver()
+	// if drv, ok := drv.(desktop.Driver); ok {
+	// 	myApp.MApp.MainWindow = drv.CreateSplashWindow()
+	// 	myApp.MApp.MainWindow.SetFullScreen(true)
+	// }
 	myApp.MApp.MainWindow.CenterOnScreen() // 居中
 	myApp.MApp.MainWindow.Resize(fyne.Size{
 		Width:  myApp.MApp.Width,

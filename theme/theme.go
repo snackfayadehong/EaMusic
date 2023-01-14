@@ -16,7 +16,7 @@ var _ fyne.Theme = (*MyTheme)(nil)
 func (m MyTheme) Font(s fyne.TextStyle) fyne.Resource {
 	return resourceSimkaiTtf
 }
-func (*MyTheme) Color(n fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
+func (m *MyTheme) Color(n fyne.ThemeColorName, v fyne.ThemeVariant) color.Color {
 	return theme.DefaultTheme().Color(n, v)
 }
 
