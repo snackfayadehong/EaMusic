@@ -3,11 +3,12 @@ package ui
 import (
 	_ "embed"
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/widget"
 )
 
 type Ui struct {
 	MainWindow fyne.Window
-	FuncBar    *fyne.Container // 左侧功能栏
 	TopBar     *fyne.Container // 顶部搜索栏
 	MusicBar   *fyne.Container // 音乐信息栏
 	PlayBar    *fyne.Container // 底部播放栏
@@ -15,19 +16,16 @@ type Ui struct {
 
 var MyUi Ui
 
-//go:embed EaMusic.png
-var EaMusicIcon []byte
-
-// 左侧导航栏
-func (u *Ui) createLeftMenu() {
-	// 推荐
-	// title := canvas.Text{Text: "推荐"}
-	// icon := fyne.NewStaticResource("EaMusicIcon", EaMusicIcon)
-	// recommendBtn := widget.NewButtonWithIcon("精选音乐", icon, func() {
-	//
-	// })
-	// u.FuncBar =
+// SearchMusicBar 搜索框
+func (u *Ui) SearchMusicBar() *fyne.Container {
+	input := widget.NewEntry()
+	input.PlaceHolder = "日落大道"
+	sh := container.NewHBox(input)
+	return sh
 }
 func (u *Ui) MakeUi() {
-
+	search := u.SearchMusicBar()
+	// mainContent := container.NewVBox(layout.NewSpacer(),search, layout.NewSpacer())
+	mainContent := container.NewVBox(search)
+	u.MainWindow.SetContent(mainContent)
 }
