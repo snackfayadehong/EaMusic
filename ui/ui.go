@@ -4,6 +4,7 @@ import (
 	_ "embed"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
 
@@ -25,8 +26,28 @@ func (u *Ui) SearchMusicBar() *fyne.Container {
 	sh := container.NewHBox(inputContainer)
 	return sh
 }
+
+// MusicDetailBar 音乐详细栏
+// func (u *Ui) MusicDetailBar() *fyne.Container {
+// 	var data [][]interface{}
+// 	musicList := widget.NewList(
+// 		func() int {
+// 			return len(data)
+// 		},
+// 		func() fyne.CanvasObject {
+// 			return container.NewVBox()
+// 		},
+// 		func(id widget.ListItemID, object fyne.CanvasObject) {
+// 			object.(*fyne.Container).Objects = []fyne.CanvasObject{
+// 				widget.NewLabel(),
+// 			}
+// 		},
+// 	)
+// }
+
+// MakeUi 构建Ui
 func (u *Ui) MakeUi() {
-	search := u.SearchMusicBar()
+	search := container.NewHBox(layout.NewSpacer(), u.SearchMusicBar(), layout.NewSpacer())
 	// search.Resize(fyne.NewSize(300, 20))
 	// mainContent := container.NewVBox(layout.NewSpacer(),search, layout.NewSpacer())
 	mainContent := container.NewVBox(search)
