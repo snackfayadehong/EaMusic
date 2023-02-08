@@ -20,11 +20,14 @@ var MyUi Ui
 func (u *Ui) SearchMusicBar() *fyne.Container {
 	input := widget.NewEntry()
 	input.PlaceHolder = "日落大道"
-	sh := container.NewHBox(input)
+	inputContainer := container.NewGridWrap(fyne.NewSize(500, 35))
+	inputContainer.Add(input)
+	sh := container.NewHBox(inputContainer)
 	return sh
 }
 func (u *Ui) MakeUi() {
 	search := u.SearchMusicBar()
+	// search.Resize(fyne.NewSize(300, 20))
 	// mainContent := container.NewVBox(layout.NewSpacer(),search, layout.NewSpacer())
 	mainContent := container.NewVBox(search)
 	u.MainWindow.SetContent(mainContent)
