@@ -6,8 +6,11 @@ import (
 	"github.com/rifflock/lfshook"
 	log "github.com/sirupsen/logrus"
 	"path"
+	"runtime"
 	"time"
 )
+
+var MyLog = log.New()
 
 func ConfigLocalFilesystemLogger(logPath string, logFileName string, maxAge time.Duration, rotationTime time.Duration) {
 	baseLogPath := path.Join(logPath, logFileName)
@@ -18,7 +21,7 @@ func ConfigLocalFilesystemLogger(logPath string, logFileName string, maxAge time
 		rotatelogs.WithRotationTime(rotationTime), // 日志切割时间间隔
 	)
 	if err != nil {
-		log.Errorf("config local file system logger error. %+v", errors.WithStack(err))
+		MyLog.Errorf("config local file system logger error. %+v", errors.WithStack(err))
 	}
 	lfHook := lfshook.NewHook(lfshook.WriterMap{
 		log.DebugLevel: writer, // 为不同级别设置不同的输出目的
@@ -27,7 +30,15 @@ func ConfigLocalFilesystemLogger(logPath string, logFileName string, maxAge time
 		log.ErrorLevel: writer,
 		log.FatalLevel: writer,
 		log.PanicLevel: writer,
-	}, &log.TextFormatter{DisableColors: true})
-	log.SetReportCaller(true) // 将函数名和行数放在日志里面
-	log.AddHook(lfHook)
+	}, &log.JSONFormatter{
+		TimestampFormat: "2006-01-02 15:04:05", // 时间格式
+		PrettyPrint:     true,                  // 换行
+		// 处理文件名
+		CallerPrettyfier: func(frame *runtime.Frame) (function string, file string) {
+			fileName := path.Base(frame.File)
+			return frame.Function, fileName
+		}},
+	)
+	MyLog.SetReportCaller(true) // 将函数名和行数放在日志里面
+	MyLog.AddHook(lfHook)
 }

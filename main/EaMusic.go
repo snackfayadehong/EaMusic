@@ -3,10 +3,9 @@ package main
 import (
 	"EaMusic/api"
 	myApp "EaMusic/app"
-	logs "EaMusic/log"
+	log "EaMusic/log"
 	"EaMusic/theme"
 	"EaMusic/ui"
-	"fmt"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"os"
@@ -19,15 +18,15 @@ func init() {
 	path += "/logs"
 	_, err := os.Stat(path)
 	if err != nil {
-		fmt.Println(err)
+		return
 	}
 	if os.IsNotExist(err) {
 		err = os.MkdirAll(path, os.ModePerm)
 		if err != nil {
-			fmt.Println(err)
+			return
 		}
 	}
-	logs.ConfigLocalFilesystemLogger("./logs", "log", time.Second*60*3, time.Second*60)
+	log.ConfigLocalFilesystemLogger("./logs", "log", time.Second*60*3, time.Second*60)
 }
 func main() {
 	// application
@@ -51,8 +50,8 @@ func main() {
 	ui.MyUi.MainWindow = myApp.MApp.MainWindow
 	myApp.MApp.MainWindow.SetMaster() // 主窗口
 	ui.MyUi.MakeUi()
-	pc := api.PlayListClass{}
-	pc.GetPlayListClass()
+	pc := api.PlayList{}
+	pc.GetPlayListByClass()
 	myApp.MApp.MainWindow.ShowAndRun()
 
 }
